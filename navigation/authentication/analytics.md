@@ -48,6 +48,8 @@ search_exclude: true
         <button id="uid-search-btn" style="padding: 5px 10px;">Search</button>
         <p id="uid-error" style="color: red;"></p>
     </div>
+    <div id="admin-summary-container"></div>
+    <div id="admin-commitCardsContainer"></div>
 </div>
 
 <!-- Grades Tab -->
@@ -284,6 +286,61 @@ search_exclude: true
     }
 
     fetchData();
+
+    document.getElementById("uid-search-btn").addEventListener("click", async () => {
+        const uid = document.getElementById("uid-input").value.trim();
+        const errorEl = document.getElementById("uid-error");
+        const summaryContainer = document.getElementById("admin-summary-container");
+        const commitContainer = document.getElementById("admin-commitCardsContainer");
+
+        errorEl.textContent = "";
+        summaryContainer.innerHTML = "";
+        commitContainer.innerHTML = "";
+
+        if (!uid) {
+            errorEl.textContent = "Please enter a UID.";
+            return;
+        }
+
+        try {
+            const response = await fetch(`${pythonURI}/api/analytics/commits/${uid}`, fetchOptions);
+
+            if (!response.ok) {
+                const err = await response.json();
+                errorEl.textContent = err.message || "Failed to fetch user commit data.";
+                return;
+            }
+
+            const data = await response.json();
+            const commitData = data.commits?.details_of_commits || [];
+            const commitCount = data.commits?.total_commit_contributions || 0;
+
+            // 🔹 Render summary
+            const summaryCard = document.createElement("div");
+            summaryCard.style.backgroundColor = "#1e293b";
+            summaryCard.style.color = "#fff";
+            summaryCard.style.padding = "20px";
+            summaryCard.style.borderRadius = "10px";
+            summaryCard.style.width = "fit-content";
+            summaryCard.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            summaryCard.style.marginBottom = "20px";
+            summaryCard.style.fontFamily = "sans-serif";
+
+            summaryCard.innerHTML = `
+                <img src="https://github.com/identicons/${uid}.png" alt="Avatar" style="width: 70px; border-radius: 50%; margin-bottom: 10px;">
+                <p><strong>UID:</strong> ${uid}</p>
+                <p><strong>Total Commits:</strong> ${commitCount}</p>
+            `;
+
+            summaryContainer.appendChild(summaryCard);
+
+            // 🔹 Render commits in a separate container
+            renderCommitCards(commitData, uid, commitContainer);
+        } catch (e) {
+            errorEl.textContent = "Unexpected error.";
+            console.error(e);
+        }
+    });
 </script>
 
 
