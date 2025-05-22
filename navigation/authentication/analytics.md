@@ -42,6 +42,12 @@ search_exclude: true
         <!-- Commit cards will be inserted here -->
         <div id="commitCardsContainer" style="margin-top: 20px;"></div>
     </div>
+    <div id="admin-user-search" style="margin-bottom: 20px;">
+        <h3>🔍 Search User by UID (Admin Only)</h3>
+        <input type="text" id="uid-input" placeholder="Enter UID" style="padding: 5px;" />
+        <button id="uid-search-btn" style="padding: 5px 10px;">Search</button>
+        <p id="uid-error" style="color: red;"></p>
+    </div>
 </div>
 
 <!-- Grades Tab -->
