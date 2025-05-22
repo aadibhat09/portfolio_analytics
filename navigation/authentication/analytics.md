@@ -182,38 +182,30 @@ search_exclude: true
         }
     }
 
-    function renderCommitCards(commitsArray, username) {
-        const container = document.getElementById("commitCardsContainer");
-        container.innerHTML = ""; // Clear old cards
+    function renderCommitCards(commitsArray, username, container = document.getElementById("commitCardsContainer")) {
+        container.innerHTML = "";
 
         if (!commitsArray.length) {
             container.innerHTML = `<p>No recent commits found.</p>`;
             return;
         }
 
-        // Flatten all commits from contributions.nodes
         let allCommits = [];
         for (const item of commitsArray) {
             const repo = item.repository?.nameWithOwner || "Unknown Repo";
             const nodes = item.contributions?.nodes || [];
 
             for (const node of nodes) {
-
-                console.log("Commit node:", node);
-
                 allCommits.push({
                     repo,
                     message: `🧾 ${node.commitCount} commit${node.commitCount > 1 ? 's' : ''}`,
-
                     date: node.occurredAt || node.committedDate || node.pushedDate || "Unknown date"
                 });
             }
         }
 
-        // Sort by date (most recent first)
         allCommits.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        // Render top 10
         allCommits.slice(0, 10).forEach((commit, index) => {
             const card = document.createElement("div");
             card.className = "card animate__animated animate__fadeInUp";
@@ -235,20 +227,14 @@ search_exclude: true
             const message = document.createElement("p");
             message.textContent = `📝 ${commit.message}`;
 
-            let dateStr = "Unknown time";
-            const parsed = Date.parse(commit.date);
-            if (!isNaN(parsed)) {
-                dateStr = new Date(parsed).toLocaleString();
-            }
-
-            const dateElement = document.createElement("p");
             const dateOnly = new Date(commit.date).toLocaleDateString(undefined, {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
             });
-            dateElement.textContent = `📅 ${dateOnly}`;
 
+            const dateElement = document.createElement("p");
+            dateElement.textContent = `📅 ${dateOnly}`;
             dateElement.style.fontSize = "0.9em";
             dateElement.style.color = "#bbb";
 
