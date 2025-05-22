@@ -1,157 +1,29 @@
 ---
-layout: post
+layout: tailwind
 title: Your Analytics
 permalink: /analytics
 search_exclude: true
 ---
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
-<style>
-    body {
-        font-family: Arial;
-    }
-
-    /* Style the tab */
-    .tab {
-        overflow: hidden;
-        border: 1px solid #cccccc;
-        background-color: transparent;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-    }
-
-    /* Style the buttons inside the tab */
-    .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        font-size: 17px;
-    }
-
-    /* Change background color of buttons on hover */
-    .tab button:hover {
-        background-color: #5d5d5d !important;
-    }
-
-    /* Create an active/current tablink class */
-    .tab button.active {
-        background-color: #373737 !important;
-    }
-
-    /* Style the tab content */
-    .tabcontent {
-        display: none;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-bottom-right-radius: 10px;
-        border-bottom-left-radius: 10px;
-        border-top: none;
-    }
-
-    .container {
-        display: flex;
-        justify-content: left;
-        width: 100%;
-        max-width: 1200px;
-        /* padding: 20px; */
-        padding-bottom: 20px;
-        padding-top: 20px;
-        box-sizing: border-box;
-    }
-
-    .profile {
-        display: flex;
-        align-items: flex-start;
-        max-width: 800px;
-        width: 100%;
-        background-color: #2c3e50;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .left-side {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-right: 20px;
-    }
-
-    .avatar {
-        border-radius: 50%;
-        width: 100px;
-        height: 100px;
-        margin-bottom: 20px;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4);
-        /* Semi-transparent black background */
-        padding-top: 60px;
-    }
-
-    .modal-content {
-        background-color: #3c4e60;
-        /* Same background color as .profile */
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #888888;
-        width: 80%;
-        border-radius: 10px;
-        /* Rounded corners */
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        /* Red shadow for alert effect */
-    }
-
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-</style>
-
-<div class="tab">
-    <button class="tablinks" onclick="openTab(event, 'Github')">Github</button>
-    <button class="tablinks" onclick="openTab(event, 'Bathroom')">Bathroom</button>
-    <button class="tablinks" onclick="openTab(event, 'Grades')">Grades</button>
+<div class="tab flex border border-gray-300 rounded-t-lg overflow-hidden">
+    <button class="tablinks bg-transparent float-left border-none outline-none cursor-pointer px-4 py-3 text-lg hover:bg-gray-600 transition duration-300" onclick="openTab(event, 'Github')">Github</button>
+    <button class="tablinks bg-transparent float-left border-none outline-none cursor-pointer px-4 py-3 text-lg hover:bg-gray-600 transition duration-300" onclick="openTab(event, 'Grades')">Grades</button>
 </div>
-
-<div id="Github" class="tabcontent">
-    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Github</h3>
+<div id="Github" class="tabcontent hidden p-3 border border-gray-300 border-t-0 rounded-b-lg bg-green-900">
+    <h3 class="pl-8 animate__animated animate__fadeIn">Github</h3>
     <!-- Modal Structure -->
-    <div id="dataModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+    <div id="dataModal" class="modal hidden fixed z-10 left-0 top-0 w-full h-full overflow-auto bg-black bg-opacity-40 pt-16">
+        <div class="modal-content bg-slate-700 mx-auto my-20 p-5 border border-gray-400 w-4/5 rounded-lg shadow-md shadow-red-500">
+            <span class="close float-right text-gray-400 text-2xl font-bold hover:text-black cursor-pointer">&times;</span>
             <pre id="modalData"></pre>
         </div>
     </div>
     <!-- Analytics Page -->
-    <!-- Analytics Page -->
-    <div class="container animate__animated animate__fadeIn">
-        <div id="profile" class="profile">
-            <div class="left-side">
-                <img id="avatar" class="avatar" src="" alt="User Avatar">
+    <div class="container flex justify-start w-full max-w-[1200px] py-5 box-border animate__animated animate__fadeIn">
+        <div id="profile" class="profile flex items-start max-w-[800px] w-full bg-slate-800 p-5 rounded-lg shadow-md">
+            <div class="left-side flex flex-col items-start mr-5">
+                <img id="avatar" class="avatar rounded-full w-[100px] h-[100px] mb-5" src="" alt="User Avatar">
                 <p id="username"></p>
             </div>
             <div class="details">
@@ -159,6 +31,7 @@ search_exclude: true
                 <p id="issues-count"></p>
                 <p id="prs-count"></p>
                 <p id="commits-count"></p>
+                <p id="line-change"></p>
                 <p id="repos-url"></p>
                 <p id="public-repos"></p>
                 <p id="public-gists"></p>
@@ -169,59 +42,31 @@ search_exclude: true
     </div>
 </div>
 
-<!-- Bathroom Tab -->
-<div id="Bathroom" class="tabcontent">
-    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Bathroom</h3>
-    <div class="container">
-        <div class="components">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Statistic</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Average Duration (minutes)</td>
-                        <td id="avg-duration">placeholder</td>
-                    </tr>
-                    <tr>
-                        <td>Number of Times Gone</td>
-                        <td id="num-times">placeholder</td>
-                    </tr>
-                </tbody>
-            </table>
-            <canvas id="bathroomChart" width="400" height="200"></canvas>
-        </div>
-    </div>
-</div>
-
 <!-- Grades Tab -->
-<div id="Grades" class="tabcontent">
-    <h3 style="padding-left: 32px;" class="animate__animated animate__fadeIn">Grades</h3>
-    <div class="container">
-        <div class="components">
-            <table id="gradesTable" class="styled-table">
+<div id="Grades" class="tabcontent hidden p-3 border border-gray-300 border-t-0 rounded-b-lg">
+    <h3 class="pl-8 animate__animated animate__fadeIn">Grades</h3>
+    <div class="container flex justify-start w-full max-w-[1200px] py-5 box-border">
+        <div class="components w-full">
+            <table id="gradesTable" class="styled-table w-full border border-collapse table-auto text-left">
                 <thead>
-                    <tr>
-                        <th>Assignment</th>
-                        <th>Grade</th>
+                    <tr class="bg-gray-200">
+                        <th class="px-4 py-2 border">Assignment</th>
+                        <th class="px-4 py-2 border">Grade</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Dynamic content will be inserted here -->
                 </tbody>
             </table>
-            <label for="assignmentSelect">Choose an Assignment:</label>
-            <select id="assignmentSelect"></select>
+            <label for="assignmentSelect" class="block mt-4 mb-2 font-medium">Choose an Assignment:</label>
+            <select id="assignmentSelect" class="border border-gray-300 rounded-md px-3 py-2 mb-6"></select>
             <!-- Box and Whisker Plot Section -->
-            <div class="chart-section" id="boxPlotSection">
-                <h2>📦 Box and Whisker Plot</h2>
+            <div class="chart-section mb-6" id="boxPlotSection">
+                <h2 class="text-xl font-semibold mb-2">📦 Box and Whisker Plot</h2>
                 <div id="boxPlot"></div>
             </div>
             <div class="chart-section" id="userGradeSection">
-                <h2>🎓 Your Grade</h2>
+                <h2 class="text-xl font-semibold mb-2">🎓 Your Grade</h2>
                 <p id="userGrade">Loading your grade...</p>
             </div>
         </div>
@@ -436,7 +281,6 @@ search_exclude: true
             const period = getPeriod(checkIn);
             if (period) periodCounts[period - 1]++;
         });
-        const ctx = document.getElementById('bathroomChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
