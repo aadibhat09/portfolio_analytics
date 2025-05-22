@@ -138,10 +138,10 @@ search_exclude: true
             const commitsCount = commitsData.total_commit_contributions || 0;
 
             function calculateGradeFromCommits(commitCount) {
-                if (commitCount > 10) return 0.9;
-                if (commitCount >= 5) return 0.85;
-                if (commitCount >= 1) return 0.75;
-                return 0.55;
+                if (commitCount > 10) return "90 %";
+                if (commitCount >= 5) return "85 %";
+                if (commitCount >= 1) return "75 %";
+                return "55 %";
             }
 
             document.getElementById('predictGradeBtn').addEventListener('click', () => {
