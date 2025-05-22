@@ -222,7 +222,7 @@ search_exclude: true
             card.style.animationDelay = `${index * 0.1}s`;
 
             const repoLink = document.createElement("a");
-            repoLink.href = `https://github.com/${commit.repo}`;
+            
             repoLink.target = "_blank";
             repoLink.textContent = commit.repo;
             repoLink.style.color = "#1abc9c";
