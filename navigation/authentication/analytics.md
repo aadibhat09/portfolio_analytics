@@ -289,7 +289,7 @@ search_exclude: true
         }
 
         try {
-            const response = await fetch(`${pythonURI}/api/analytics/commits/${uid}`, fetchOptions);
+            const response = await fetch(`${pythonURI}/api/analytics/commits/${uid}`, fetchOptions); //admin only feature
 
             if (!response.ok) {
                 const err = await response.json();
@@ -301,7 +301,7 @@ search_exclude: true
             const commitData = data.commits?.details_of_commits || [];
             const commitCount = data.commits?.total_commit_contributions || 0;
 
-            // 🔹 Render summary
+            // Render summary
             const summaryCard = document.createElement("div");
             summaryCard.style.backgroundColor = "#1e293b";
             summaryCard.style.color = "#fff";
@@ -320,7 +320,7 @@ search_exclude: true
 
             summaryContainer.appendChild(summaryCard);
 
-            // 🔹 Render commits in a separate container
+            // Render commits in a separate container
             renderCommitCards(commitData, uid, commitContainer);
         } catch (e) {
             errorEl.textContent = "Unexpected error.";
