@@ -76,6 +76,7 @@ search_exclude: true
             <div class="chart-section" id="userGradeSection">
                 <h2 class="text-xl font-semibold mb-2">🎓 Your Grade</h2>
                 <p id="userGrade">Loading your grade...</p>
+                <button id="predictGradeBtn" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Predict Grade</button>
             </div>
         </div>
     </div>
@@ -135,6 +136,19 @@ search_exclude: true
 
             const commitsArray = commitsData.details_of_commits || [];
             const commitsCount = commitsData.total_commit_contributions || 0;
+
+            function calculateGradeFromCommits(commitCount) {
+                if (commitCount > 10) return 0.9;
+                if (commitCount >= 5) return 0.85;
+                if (commitCount >= 1) return 0.75;
+                return 0.55;
+            }
+
+            document.getElementById('predictGradeBtn').addEventListener('click', () => {
+                const commitGrade = calculateGradeFromCommits(commitsData.total_commit_contributions || 0);
+                document.getElementById('userGrade').textContent = `Predicted Grade (by Commits): ${commitGrade}`;
+            });
+
             const prsArray = prsData.pull_requests || [];
             const prsCount = prsArray.length || 0;
             const issuesArray = issuesData.issues || [];
@@ -299,6 +313,7 @@ search_exclude: true
 
 <script type="module">
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
+
 
     function calculateAverageDuration(timeIn) {
         const visits = timeIn.split(',');
