@@ -75,6 +75,7 @@ search_exclude: true
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
