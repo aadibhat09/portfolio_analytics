@@ -42,14 +42,26 @@ search_exclude: true
         <!-- Commit cards will be inserted here -->
         <div id="commitCardsContainer" style="margin-top: 20px;"></div>
     </div>
-    <div id="admin-user-search" style="margin-bottom: 20px;">
-        <h3>🔍 Search User by UID (Admin Only)</h3>
-        <input type="text" id="uid-input" placeholder="Enter UID" style="padding: 5px;" />
-        <button id="uid-search-btn" style="padding: 5px 10px;">Search</button>
-        <p id="uid-error" style="color: red;"></p>
+    <div id="admin-user-search" class="my-6 p-4 bg-slate-800 rounded-lg shadow-md text-white max-w-md">
+        <h3 class="text-lg font-semibold mb-2">🔍 Search User by UID (Admin Only)</h3>
+        <div class="flex items-center gap-3">
+            <input
+                type="text"
+                id="uid-input"
+                placeholder="Enter UID"
+                class="px-4 py-2 rounded bg-slate-700 border border-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white w-full"
+            />
+            <button
+                id="uid-search-btn"
+                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition"
+            >
+                Search
+            </button>
+        </div>
+        <p id="uid-error" class="text-red-400 mt-2 text-sm"></p>
     </div>
-    <div id="admin-summary-container"></div>
-    <div id="admin-commitCardsContainer"></div>
+    <div id="admin-summary-container" class="mt-6"></div>
+    <div id="admin-commitCardsContainer" class="grid gap-4 mt-4"></div>
 </div>
 
 <!-- Grades Tab -->
@@ -289,7 +301,7 @@ search_exclude: true
         }
 
         try {
-            const response = await fetch(`${pythonURI}/api/analytics/commits/${uid}`, fetchOptions); //admin only feature
+            const response = await fetch(`${pythonURI}/api/analytics/commits/${uid}`, fetchOptions);
 
             if (!response.ok) {
                 const err = await response.json();
@@ -301,26 +313,19 @@ search_exclude: true
             const commitData = data.commits?.details_of_commits || [];
             const commitCount = data.commits?.total_commit_contributions || 0;
 
-            // Render summary
+            // Create and style summary card using CSS class
             const summaryCard = document.createElement("div");
-            summaryCard.style.backgroundColor = "#1e293b";
-            summaryCard.style.color = "#fff";
-            summaryCard.style.padding = "20px";
-            summaryCard.style.borderRadius = "10px";
-            summaryCard.style.width = "fit-content";
-            summaryCard.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
-            summaryCard.style.marginBottom = "20px";
-            summaryCard.style.fontFamily = "sans-serif";
+            summaryCard.className = "summary-card bg-slate-800 text-white p-5 rounded-lg shadow max-w-xs text-center";
 
             summaryCard.innerHTML = `
-                <img src="https://github.com/identicons/${uid}.png" alt="Avatar" style="width: 70px; border-radius: 50%; margin-bottom: 10px;">
+                <img src="https://github.com/identicons/${uid}.png" alt="Avatar">
                 <p><strong>UID:</strong> ${uid}</p>
                 <p><strong>Total Commits:</strong> ${commitCount}</p>
             `;
 
             summaryContainer.appendChild(summaryCard);
 
-            // Render commits in a separate container
+            // Render commit cards in separate container
             renderCommitCards(commitData, uid, commitContainer);
         } catch (e) {
             errorEl.textContent = "Unexpected error.";
