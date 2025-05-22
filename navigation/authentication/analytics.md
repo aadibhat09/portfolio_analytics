@@ -52,31 +52,12 @@ search_exclude: true
 
 <!-- Grades Tab -->
 <div id="Grades" class="tabcontent hidden p-3 border border-gray-300 border-t-0 rounded-b-lg">
-    <h3 class="pl-8 animate__animated animate__fadeIn">Grades</h3>
     <div class="container flex justify-start w-full max-w-[1200px] py-5 box-border">
         <div class="components w-full">
-            <table id="gradesTable" class="styled-table w-full border border-collapse table-auto text-left">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="px-4 py-2 border">Assignment</th>
-                        <th class="px-4 py-2 border">Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamic content will be inserted here -->
-                </tbody>
-            </table>
-            <label for="assignmentSelect" class="block mt-4 mb-2 font-medium">Choose an Assignment:</label>
-            <select id="assignmentSelect" class="border border-gray-300 rounded-md px-3 py-2 mb-6"></select>
-            <!-- Box and Whisker Plot Section -->
-            <div class="chart-section mb-6" id="boxPlotSection">
-                <h2 class="text-xl font-semibold mb-2">📦 Box and Whisker Plot</h2>
-                <div id="boxPlot"></div>
-            </div>
             <div class="chart-section" id="userGradeSection">
                 <h2 class="text-xl font-semibold mb-2">🎓 Your Grade</h2>
                 <p id="userGrade">Loading your grade...</p>
-                <button id="predictGradeBtn" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Predict Grade</button>
+                <button id="predictGradeBtn" class="mt-2 px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-700 transition">Predict Grade</button>
             </div>
         </div>
     </div>
@@ -138,9 +119,9 @@ search_exclude: true
             const commitsCount = commitsData.total_commit_contributions || 0;
 
             function calculateGradeFromCommits(commitCount) {
-                if (commitCount > 10) return "90 % (A) ";
-                if (commitCount >= 5) return "85 % (B)";
-                if (commitCount >= 1) return "75 % (C)";
+                if (commitCount > 20) return "90 % (A) ";
+                if (commitCount >= 10) return "85 % (B)";
+                if (commitCount >= 5) return "75 % (C)";
                 return "55 % (F)";
             }
 
